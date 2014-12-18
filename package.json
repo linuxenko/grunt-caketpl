@@ -1,7 +1,7 @@
 {
   "name": "grunt-caketpl",
   "description": "HTML templates builder. Creates javascript compatiable strings from filesystem based templates.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/linuxenko/grunt-caketpl",
   "author": {
     "name": "Svetlana Linuxenko",
