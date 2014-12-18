@@ -10,7 +10,7 @@
 
 module.exports = function(grunt) {
 
-  var comment = require('./lib/comment').init(grunt);
+ // var comment = require('./lib/comment').init(grunt);
 
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
