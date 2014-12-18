@@ -10,14 +10,15 @@
 
 module.exports = function(grunt) {
 
+  var comment = require('./lib/comment').init(grunt);
+
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('cakeTpl', 'HTML templates builder. Creates javascript compatiable strings from filesystem based templates.', function() {
+  grunt.registerMultiTask('cakeTpl', 'HTML templates builder', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
+      scope : '$c.tpl'
     });
 
     // Iterate over all specified file groups.
@@ -32,12 +33,20 @@ module.exports = function(grunt) {
           return true;
         }
       }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
 
-      // Handle options.
-      src += options.punctuation;
+        if (grunt.file.isDir(filepath)) {
+          return;
+        }
+
+        var src = grunt.file.read(filepath)
+          .replace(/\s{1,}/gi,' ')
+          .replace(/"/gi, '\\"')
+          .replace(/'/gi,"\\'")
+        ;
+        var filename = filepath.match('^.+\\/(.+?)(?=\\.[^.]*$|$)')[1];
+  
+        return options.scope + '.' + filename + ' = "' + src + '";';
+      }).join("\r\n");
 
       // Write the destination file.
       grunt.file.write(f.dest, src);
